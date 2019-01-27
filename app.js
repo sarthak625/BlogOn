@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
 const session = require('express-session');
-const uuid  = require('uuid/v1');
-const cookieParser = require('cookie-parser');
+const uuid = require('uuid/v1');
+const busboy = require('connect-busboy');
+
+// const cookieParser = require('cookie-parser');
 const FileStore = require('session-file-store')(session);
 
 dotenv.config();
@@ -18,14 +20,21 @@ app.set('view engine', 'ejs');
 
 // Middlewares
 app.use(session({
-    genid : function(req){
+    genid: function (req) {
         return uuid();
     },
-    store : new FileStore(),
+    store: new FileStore(),
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
     // cookie: { secure: true, maxAge : 60000 }
+}));
+// default options, no immediate parsing
+app.use(busboy({
+    highWaterMark: 2 * 1024 * 1024,
+    limits: {
+        fileSize: 10 * 1024 * 1024
+    }
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());

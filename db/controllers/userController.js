@@ -2,17 +2,21 @@ let uuid = require('uuid/v1');
 let bcrypt = require('bcryptjs');
 
 let create = (User,name,email,password)=>{
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-            // Store hash in your password DB.
-            User.create({
-                id          : uuid(),
-                name        : name,
-                email       : email,
-                password    : hash
+    return new Promise((resolve,reject)=>{
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) reject(err);
+            bcrypt.hash(password, salt, function(err, hash) {
+                if (err) reject(err);
+                let user = User.create({
+                    id          : uuid(),
+                    name        : name,
+                    email       : email,
+                    password    : hash
+                });
+                resolve(user);
             });
         });
-    });
+    })
 }
 
 let compare = (pass,password) => new Promise((resolve,reject)=>{

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include partials/head %>
+<style>
+    body{
+        background : url('../public/img/emre-gencer.jpg');
+    }
+    #create-blog-container{
+        margin-top: 80px;
+        font-color:white;
+    }
+</style>
+
+<body>
+    <% include partials/navbar-login %>
+
+    <div class="container" id="create-blog-container">
+        <% include partials/errormessages.ejs %>
+        <form action="/create" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" name="title" class="form-control" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <input type="text" name="subtitle" class="form-control" placeholder="Sub-Title">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="50" name="content" class="form-control" placeholder="Write your blog here in markdown"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="file" name="blogimage">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

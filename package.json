@@ -12,16 +12,21 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "busboy": "^0.3.0",
+    "connect-busboy": "0.0.2",
     "cookie-parser": "^1.4.3",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "passport": "^0.4.0",
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.42.0",
     "session-file-store": "^1.2.0",
+    "sweetalert": "^2.1.2",
     "uuid": "^3.3.2"
   }
 }
