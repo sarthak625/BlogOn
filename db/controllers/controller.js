@@ -19,10 +19,11 @@ let createUser = async (name,email,password) =>{
 let checkPassword = async (email,password) =>{
     try{
         let result = await userController.checkPassword(User,email,password);
-        if (result){
+        if (result.success){
             return {
                 code : 200,
-                message : "Login successfull"
+                message : "Login successfull",
+                name : result.name
             }
         }
         else{

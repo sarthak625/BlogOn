@@ -4,7 +4,12 @@ const controller = require('../db/controllers/controller');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('index.ejs');
+    if (req.session.name) {
+        res.render('dashboard.ejs', { name: req.session.name });
+    }
+    else {
+        res.render('index.ejs');
+    }
 });
 
 router.get('/login', (req, res) => {
@@ -16,13 +21,15 @@ router.post('/login', (req, res) => {
     let errors = [];
 
     controller.checkPassword(email, pass)
-        .then(exists => {
-            if (exists.code === 200) {
-                res.send('Successful login');
+        .then(result => {
+            if (result.code === 200) {
+                req.session.name = result.name;
+                req.session.email = email;
+                res.redirect('/');
             }
-            else if (exists.code === 400){
+            else if (result.code === 400) {
                 errors.push("The password is incorrect");
-                res.render('login.ejs',{ errors });
+                res.render('login.ejs', { errors });
             }
             else {
                 errors.push("This email is not registered. Please sign up");
@@ -34,6 +41,19 @@ router.post('/login', (req, res) => {
             errors.push("Internal server error. Please try at a later time");
             res.render('login.ejs', { errors });
         });
+});
+
+router.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    res.redirect('/');
+
 });
 
 router.get('/sample', (req, res) => {

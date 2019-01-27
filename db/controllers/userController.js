@@ -30,9 +30,12 @@ let checkPassword = async (User,email,pass)=>{
     })
 
     if (project && project.dataValues){
-        let { password } = project.dataValues;
+        let { password,name } = project.dataValues;
         let result = await compare(pass,password);
-        return result;
+        return {
+            name : name,
+            success :result
+        };
     }
     else{
         return {
